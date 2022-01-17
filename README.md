@@ -149,14 +149,14 @@ Because LDA is **supervised learning**, so we **need** the train_target in LDA.f
 Then we make the prediction and get the accuracy.
 
 ```python=
-# apply the LDA model with 0 to 39 dimensions
+    # apply the LDA model after the PCA with 0 to 39 dimensions
     if(i<40):
-        # Because LDA is supervised learning, so we need the train_target in LDA.fit().
-        LDA_model = LDA(n_components=i).fit(train_img, train_target)
+        # Because LDA  is supervised learning, so we need the train_target in LDA.fit().
+        LDA_model = LDA(n_components=i).fit(pca_train_img, train_target)
 
-        # LDA transform
-        lda_train_img = LDA_model.transform(train_img)
-        lda_test_img = LDA_model.transform(test_img)
+        # LDA transform the PCA data
+        lda_train_img = LDA_model.transform(pca_train_img)
+        lda_test_img = LDA_model.transform(pca_test_img)
         
         # prediction
         lda_pred = lda_clf.fit(lda_train_img, train_target)
@@ -209,14 +209,14 @@ Finally we print the results.
 ### Results
 We can find that for PCA, the accuracy increases as we increase the dimensions, this is because uses dimension reduction to achieve greater simplicity and maintainability features.
 
-As for LDA, the highest accuracy at 30 dimensions, but lowest at 20 dimensions. From this result, I did not see a correlation between the number of dimensions with the accuracy. This may be because LDA maximizing the component axes for class-separation, so the increase of dimensions may not always have higher accuracy as such as PCA.
+As for LDA after PCA, the highest accuracy at 30 dimensions and at 20 dimensions. From this result, I did not see a correlation between the number of dimensions with the accuracy. This may be because LDA maximizing the component axes for class-separation, so the increase of dimensions may not always have higher accuracy as such as just PCA.
 
 ```
 (base) andrewlao@Andrews-MacBook-Air face_recognition % python main.py
 
 10dimensions:
-PCA Correct Predictions:174 Wrong Predictions:26 Accuracy:86.5%
-LDA Correct Predictions:174  Wrong Predictions:26 Accuracy:87.0%
+PCA Correct Predictions:177 Wrong Predictions:23 Accuracy:86.5%
+LDA Correct Predictions:177  Wrong Predictions:23 Accuracy:88.5%
 PCA Confusion Matrix:
 [[4 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
@@ -226,12 +226,12 @@ PCA Confusion Matrix:
  [0 0 0 ... 0 5 0]
  [0 0 0 ... 0 0 5]]
 LDA Confusion Matrix:
-[[5 0 0 ... 0 0 0]
+[[4 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
- [0 0 4 ... 0 0 0]
+ [0 0 5 ... 0 0 0]
  ...
  [0 0 0 ... 5 0 0]
- [0 0 0 ... 0 2 0]
+ [0 0 0 ... 0 5 0]
  [0 0 0 ... 0 0 5]]
 PCA report:
               precision    recall  f1-score   support
@@ -284,54 +284,54 @@ weighted avg       0.89      0.86      0.85       200
 LDA report:
               precision    recall  f1-score   support
 
-           1       1.00      1.00      1.00         5
+           1       1.00      0.80      0.89         5
            2       1.00      1.00      1.00         5
-           3       1.00      0.80      0.89         5
-           4       0.71      1.00      0.83         5
-           5       1.00      0.80      0.89         5
+           3       1.00      1.00      1.00         5
+           4       1.00      1.00      1.00         5
+           5       1.00      1.00      1.00         5
            6       1.00      1.00      1.00         5
-           7       1.00      1.00      1.00         5
+           7       0.83      1.00      0.91         5
            8       0.83      1.00      0.91         5
            9       1.00      1.00      1.00         5
-          10       1.00      0.80      0.89         5
-          11       0.62      1.00      0.77         5
+          10       1.00      0.60      0.75         5
+          11       0.83      1.00      0.91         5
           12       1.00      1.00      1.00         5
           13       1.00      1.00      1.00         5
-          14       1.00      0.40      0.57         5
-          15       1.00      1.00      1.00         5
-          16       1.00      1.00      1.00         5
-          17       0.25      0.40      0.31         5
-          18       0.83      1.00      0.91         5
-          19       1.00      0.80      0.89         5
-          20       1.00      1.00      1.00         5
-          21       0.62      1.00      0.77         5
+          14       1.00      0.20      0.33         5
+          15       0.83      1.00      0.91         5
+          16       0.83      1.00      0.91         5
+          17       0.00      0.00      0.00         5
+          18       1.00      1.00      1.00         5
+          19       1.00      1.00      1.00         5
+          20       1.00      0.80      0.89         5
+          21       1.00      1.00      1.00         5
           22       1.00      1.00      1.00         5
           23       1.00      1.00      1.00         5
           24       1.00      1.00      1.00         5
-          25       1.00      1.00      1.00         5
-          26       1.00      1.00      1.00         5
+          25       0.83      1.00      0.91         5
+          26       1.00      0.80      0.89         5
           27       1.00      0.40      0.57         5
-          28       0.60      0.60      0.60         5
+          28       0.43      0.60      0.50         5
           29       0.83      1.00      0.91         5
-          30       0.83      1.00      0.91         5
-          31       1.00      0.80      0.89         5
-          32       1.00      0.80      0.89         5
-          33       1.00      0.80      0.89         5
+          30       1.00      1.00      1.00         5
+          31       1.00      1.00      1.00         5
+          32       1.00      0.60      0.75         5
+          33       1.00      1.00      1.00         5
           34       1.00      1.00      1.00         5
-          35       1.00      0.60      0.75         5
-          36       0.33      0.40      0.36         5
-          37       0.71      1.00      0.83         5
-          38       1.00      1.00      1.00         5
-          39       1.00      0.40      0.57         5
+          35       1.00      0.80      0.89         5
+          36       0.50      0.80      0.62         5
+          37       0.83      1.00      0.91         5
+          38       0.83      1.00      0.91         5
+          39       1.00      1.00      1.00         5
           40       1.00      1.00      1.00         5
 
-    accuracy                           0.87       200
-   macro avg       0.90      0.87      0.87       200
-weighted avg       0.90      0.87      0.87       200
+    accuracy                           0.89       200
+   macro avg       0.91      0.89      0.88       200
+weighted avg       0.91      0.89      0.88       200
 
 
 20dimensions:
-PCA Correct Predictions:173 Wrong Predictions:27 Accuracy:88.0%
+PCA Correct Predictions:173 Wrong Predictions:27 Accuracy:87.0%
 LDA Correct Predictions:173  Wrong Predictions:27 Accuracy:86.5%
 PCA Confusion Matrix:
 [[5 0 0 ... 0 0 0]
@@ -347,7 +347,7 @@ LDA Confusion Matrix:
  [0 0 5 ... 0 0 0]
  ...
  [0 0 0 ... 5 0 0]
- [0 0 0 ... 0 4 0]
+ [0 0 0 ... 0 3 0]
  [0 0 0 ... 0 0 5]]
 PCA report:
               precision    recall  f1-score   support
@@ -372,83 +372,83 @@ PCA report:
           18       0.83      1.00      0.91         5
           19       1.00      0.80      0.89         5
           20       1.00      1.00      1.00         5
-          21       1.00      1.00      1.00         5
+          21       0.83      1.00      0.91         5
           22       1.00      1.00      1.00         5
           23       1.00      1.00      1.00         5
           24       0.83      1.00      0.91         5
-          25       1.00      1.00      1.00         5
+          25       0.83      1.00      0.91         5
           26       1.00      0.80      0.89         5
           27       1.00      0.40      0.57         5
           28       0.43      0.60      0.50         5
           29       1.00      1.00      1.00         5
           30       1.00      1.00      1.00         5
-          31       1.00      1.00      1.00         5
+          31       1.00      0.80      0.89         5
           32       1.00      0.60      0.75         5
           33       1.00      1.00      1.00         5
           34       1.00      1.00      1.00         5
-          35       1.00      1.00      1.00         5
+          35       1.00      0.80      0.89         5
           36       0.38      0.60      0.46         5
           37       0.83      1.00      0.91         5
           38       1.00      1.00      1.00         5
           39       1.00      1.00      1.00         5
           40       1.00      1.00      1.00         5
 
-    accuracy                           0.88       200
-   macro avg       0.91      0.88      0.88       200
-weighted avg       0.91      0.88      0.88       200
+    accuracy                           0.87       200
+   macro avg       0.90      0.87      0.87       200
+weighted avg       0.90      0.87      0.87       200
 
 LDA report:
               precision    recall  f1-score   support
 
-           1       0.83      1.00      0.91         5
-           2       1.00      1.00      1.00         5
+           1       0.62      1.00      0.77         5
+           2       0.83      1.00      0.91         5
            3       1.00      1.00      1.00         5
-           4       0.83      1.00      0.91         5
-           5       1.00      0.80      0.89         5
+           4       1.00      1.00      1.00         5
+           5       1.00      1.00      1.00         5
            6       1.00      1.00      1.00         5
            7       1.00      1.00      1.00         5
            8       0.83      1.00      0.91         5
            9       1.00      1.00      1.00         5
           10       1.00      0.80      0.89         5
-          11       0.71      1.00      0.83         5
+          11       0.80      0.80      0.80         5
           12       1.00      1.00      1.00         5
           13       1.00      1.00      1.00         5
-          14       1.00      0.40      0.57         5
+          14       1.00      0.20      0.33         5
           15       1.00      1.00      1.00         5
-          16       1.00      0.80      0.89         5
-          17       0.33      0.60      0.43         5
-          18       0.83      1.00      0.91         5
+          16       1.00      0.40      0.57         5
+          17       0.00      0.00      0.00         5
+          18       1.00      1.00      1.00         5
           19       1.00      0.80      0.89         5
-          20       1.00      0.80      0.89         5
-          21       0.71      1.00      0.83         5
-          22       1.00      1.00      1.00         5
-          23       0.80      0.80      0.80         5
-          24       0.83      1.00      0.91         5
+          20       1.00      1.00      1.00         5
+          21       1.00      1.00      1.00         5
+          22       0.83      1.00      0.91         5
+          23       0.62      1.00      0.77         5
+          24       1.00      1.00      1.00         5
           25       1.00      1.00      1.00         5
           26       1.00      0.80      0.89         5
           27       1.00      0.20      0.33         5
-          28       0.40      0.40      0.40         5
-          29       0.71      1.00      0.83         5
-          30       1.00      1.00      1.00         5
-          31       1.00      0.80      0.89         5
+          28       0.43      0.60      0.50         5
+          29       0.83      1.00      0.91         5
+          30       0.71      1.00      0.83         5
+          31       1.00      1.00      1.00         5
           32       1.00      0.80      0.89         5
           33       1.00      0.80      0.89         5
           34       1.00      1.00      1.00         5
-          35       1.00      0.60      0.75         5
-          36       0.60      0.60      0.60         5
-          37       0.62      1.00      0.77         5
+          35       1.00      1.00      1.00         5
+          36       0.67      0.80      0.73         5
+          37       0.71      1.00      0.83         5
           38       0.83      1.00      0.91         5
-          39       1.00      0.80      0.89         5
+          39       1.00      0.60      0.75         5
           40       1.00      1.00      1.00         5
 
     accuracy                           0.86       200
-   macro avg       0.90      0.86      0.86       200
-weighted avg       0.90      0.86      0.86       200
+   macro avg       0.89      0.86      0.86       200
+weighted avg       0.89      0.86      0.86       200
 
 
 30dimensions:
-PCA Correct Predictions:181 Wrong Predictions:19 Accuracy:88.5%
-LDA Correct Predictions:181  Wrong Predictions:19 Accuracy:90.5%
+PCA Correct Predictions:176 Wrong Predictions:24 Accuracy:89.0%
+LDA Correct Predictions:176  Wrong Predictions:24 Accuracy:88.0%
 PCA Confusion Matrix:
 [[5 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
@@ -458,7 +458,7 @@ PCA Confusion Matrix:
  [0 0 0 ... 0 5 0]
  [0 0 0 ... 0 0 5]]
 LDA Confusion Matrix:
-[[5 0 0 ... 0 0 0]
+[[4 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
  [0 0 5 ... 0 0 0]
  ...
@@ -488,7 +488,7 @@ PCA report:
           18       0.83      1.00      0.91         5
           19       1.00      0.80      0.89         5
           20       1.00      1.00      1.00         5
-          21       0.83      1.00      0.91         5
+          21       1.00      1.00      1.00         5
           22       1.00      1.00      1.00         5
           23       1.00      1.00      1.00         5
           24       0.83      1.00      0.91         5
@@ -498,7 +498,7 @@ PCA report:
           28       0.43      0.60      0.50         5
           29       1.00      1.00      1.00         5
           30       1.00      1.00      1.00         5
-          31       1.00      0.80      0.89         5
+          31       1.00      1.00      1.00         5
           32       1.00      0.60      0.75         5
           33       1.00      1.00      1.00         5
           34       1.00      1.00      1.00         5
@@ -510,60 +510,60 @@ PCA report:
           40       1.00      1.00      1.00         5
 
     accuracy                           0.89       200
-   macro avg       0.91      0.89      0.88       200
-weighted avg       0.91      0.89      0.88       200
+   macro avg       0.91      0.89      0.89       200
+weighted avg       0.91      0.89      0.89       200
 
 LDA report:
               precision    recall  f1-score   support
 
-           1       0.71      1.00      0.83         5
+           1       0.80      0.80      0.80         5
            2       1.00      1.00      1.00         5
            3       1.00      1.00      1.00         5
            4       1.00      1.00      1.00         5
-           5       1.00      0.80      0.89         5
+           5       1.00      1.00      1.00         5
            6       1.00      1.00      1.00         5
-           7       0.83      1.00      0.91         5
-           8       0.83      1.00      0.91         5
+           7       1.00      0.80      0.89         5
+           8       1.00      1.00      1.00         5
            9       1.00      1.00      1.00         5
-          10       1.00      0.80      0.89         5
-          11       0.71      1.00      0.83         5
+          10       1.00      1.00      1.00         5
+          11       1.00      0.80      0.89         5
           12       1.00      1.00      1.00         5
           13       1.00      1.00      1.00         5
-          14       1.00      0.60      0.75         5
-          15       0.71      1.00      0.83         5
+          14       1.00      0.20      0.33         5
+          15       1.00      1.00      1.00         5
           16       1.00      0.80      0.89         5
-          17       0.43      0.60      0.50         5
-          18       0.83      1.00      0.91         5
+          17       0.00      0.00      0.00         5
+          18       1.00      1.00      1.00         5
           19       1.00      0.80      0.89         5
-          20       1.00      1.00      1.00         5
-          21       1.00      1.00      1.00         5
-          22       1.00      1.00      1.00         5
-          23       1.00      1.00      1.00         5
+          20       1.00      0.80      0.89         5
+          21       0.71      1.00      0.83         5
+          22       0.83      1.00      0.91         5
+          23       0.83      1.00      0.91         5
           24       1.00      1.00      1.00         5
           25       1.00      1.00      1.00         5
-          26       1.00      0.80      0.89         5
-          27       1.00      0.40      0.57         5
-          28       0.60      0.60      0.60         5
+          26       1.00      1.00      1.00         5
+          27       1.00      0.20      0.33         5
+          28       0.57      0.80      0.67         5
           29       1.00      1.00      1.00         5
           30       1.00      1.00      1.00         5
-          31       1.00      1.00      1.00         5
+          31       1.00      0.80      0.89         5
           32       1.00      0.80      0.89         5
-          33       1.00      1.00      1.00         5
+          33       1.00      0.80      0.89         5
           34       1.00      1.00      1.00         5
-          35       1.00      0.60      0.75         5
-          36       0.60      0.60      0.60         5
-          37       0.71      1.00      0.83         5
-          38       1.00      1.00      1.00         5
+          35       0.83      1.00      0.91         5
+          36       0.50      0.80      0.62         5
+          37       0.83      1.00      0.91         5
+          38       0.83      1.00      0.91         5
           39       1.00      1.00      1.00         5
-          40       1.00      1.00      1.00         5
+          40       0.83      1.00      0.91         5
 
-    accuracy                           0.91       200
-   macro avg       0.92      0.91      0.90       200
-weighted avg       0.92      0.91      0.90       200
+    accuracy                           0.88       200
+   macro avg       0.91      0.88      0.88       200
+weighted avg       0.91      0.88      0.88       200
 
 
 40dimensions:
-PCA Correct Predictions:179 Wrong Predictions:21 Accuracy:89.5%
+PCA Correct Predictions:178 Wrong Predictions:22 Accuracy:89.0%
 PCA Confusion Matrix:
 [[5 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
@@ -599,7 +599,7 @@ PCA report:
           22       1.00      1.00      1.00         5
           23       1.00      1.00      1.00         5
           24       0.83      1.00      0.91         5
-          25       1.00      1.00      1.00         5
+          25       0.83      1.00      0.91         5
           26       1.00      0.80      0.89         5
           27       1.00      0.40      0.57         5
           28       0.43      0.60      0.50         5
@@ -609,20 +609,20 @@ PCA report:
           32       1.00      0.80      0.89         5
           33       1.00      1.00      1.00         5
           34       1.00      1.00      1.00         5
-          35       1.00      1.00      1.00         5
+          35       1.00      0.80      0.89         5
           36       0.38      0.60      0.46         5
           37       0.83      1.00      0.91         5
           38       1.00      1.00      1.00         5
           39       1.00      1.00      1.00         5
           40       1.00      1.00      1.00         5
 
-    accuracy                           0.90       200
-   macro avg       0.92      0.89      0.89       200
-weighted avg       0.92      0.90      0.89       200
+    accuracy                           0.89       200
+   macro avg       0.91      0.89      0.89       200
+weighted avg       0.91      0.89      0.89       200
 
 
 50dimensions:
-PCA Correct Predictions:179 Wrong Predictions:21 Accuracy:89.5%
+PCA Correct Predictions:180 Wrong Predictions:20 Accuracy:90.0%
 PCA Confusion Matrix:
 [[5 0 0 ... 0 0 0]
  [0 5 0 ... 0 0 0]
@@ -638,7 +638,7 @@ PCA report:
            2       1.00      1.00      1.00         5
            3       1.00      1.00      1.00         5
            4       1.00      1.00      1.00         5
-           5       1.00      0.80      0.89         5
+           5       1.00      1.00      1.00         5
            6       1.00      1.00      1.00         5
            7       1.00      1.00      1.00         5
            8       0.83      1.00      0.91         5
@@ -651,7 +651,7 @@ PCA report:
           15       0.83      1.00      0.91         5
           16       1.00      1.00      1.00         5
           17       0.00      0.00      0.00         5
-          18       0.83      1.00      0.91         5
+          18       1.00      1.00      1.00         5
           19       1.00      0.80      0.89         5
           20       1.00      1.00      1.00         5
           21       1.00      1.00      1.00         5
@@ -676,8 +676,8 @@ PCA report:
           40       1.00      1.00      1.00         5
 
     accuracy                           0.90       200
-   macro avg       0.92      0.89      0.89       200
-weighted avg       0.92      0.90      0.89       200
+   macro avg       0.92      0.90      0.90       200
+weighted avg       0.92      0.90      0.90       200
 ```
 
 ## 4. Discussion
