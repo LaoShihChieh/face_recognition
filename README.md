@@ -683,7 +683,7 @@ weighted avg       0.92      0.90      0.90       200
 ## 4. Discussion
 For this assignment, one of the issue I faced learning how to **preprocess the data**, when I first saw that the format of the images are not what I am familiar with, I got lost. Thankfully my labmate's gave a couple advice on how to process it. This skill can be improved by practicing more on how to process different data in **Python**.
 
-Next issue is getting a **higher accuracy**, the highest accuracy I got from this is 90.5%, but I would like to get accuracy to be above 95%. I tried to adjust the parameters with GridSearchCV() for SVC, but I did not see greater improvements, thus I left it out of the code. How I can improve it is to do more **research** on ways to **optimize the parameters** to get better results. Since it doesn't take long for this program to run, I can also write a code to **automate** the process of finding the best parameters.
+Next issue is getting a **higher accuracy**, the highest accuracy I got from this is 90%, but I would like to get accuracy to be above 95%. I tried to adjust the parameters with GridSearchCV() for SVC, but I did not see greater improvements, thus I left it out of the code. How I can improve it is to do more **research** on ways to **optimize the parameters** to get better results. Since it doesn't take long for this program to run, I can also write a code to **automate** the process of finding the best parameters.
 
 ## 5. Summary
 In this assignment, I learned different methods on how to **preprocess data** for it to fit the model, and implementing the **PCA** and **LDA** method to recognize face images.
