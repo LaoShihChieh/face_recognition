@@ -4,7 +4,7 @@
 ---
 ## Problem: Face Recognition
 ---
-Github: https://github.com/LaoShihChieh/face_recognition
+HackMD: https://hackmd.io/0SE-DxmMTZi1RxBmZisFew
 ## Contents
 **1. Problem description**
 
